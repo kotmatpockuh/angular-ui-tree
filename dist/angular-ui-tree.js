@@ -1,6 +1,6 @@
 /**
- * @license Angular UI Tree v2.1.6
- * (c) 2010-2014. https://github.com/JimLiu/angular-ui-tree
+ * @license Angular UI Tree v2.1.7
+ * (c) 2010-2014. https://github.com/kotmatpockuh/angular-ui-tree
  * License: MIT
  */
 (function () {
