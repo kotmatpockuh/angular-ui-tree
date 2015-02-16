@@ -1109,7 +1109,6 @@
                       if (targetBefore) {
                         targetElm[0].parentNode.insertBefore(placeElm[0], targetElm[0]);
                         dragInfo.moveTo(targetNode.$parentNodesScope, targetNode.siblings(), targetNode.index());
-                        //console.log('placed # 1');
                         next = dragInfo.next();  
                         if (next && (typeof next.$modelValue.Options !== 'undefined' && next.$modelValue.Options.length == 0) && next.accept(scope, next.childNodesCount())) {
                           //console.log('magic happens');
@@ -1118,8 +1117,7 @@
                         }
                       } else {    
                         targetElm.after(placeElm);
-                        dragInfo.moveTo(targetNode.$parentNodesScope, targetNode.siblings(), targetNode.index() + 1);
-                        //console.log('placed # 2');                        
+                        dragInfo.moveTo(targetNode.$parentNodesScope, targetNode.siblings(), targetNode.index() + 1);                     
                         prev = dragInfo.prev();  
                         if (prev && (typeof prev.$modelValue.Options !== 'undefined' && prev.$modelValue.Options.length == 0) && prev.accept(scope, prev.childNodesCount())) {
                           //console.log('magic happens');
