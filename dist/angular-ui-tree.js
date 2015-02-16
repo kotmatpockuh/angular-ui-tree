@@ -17,7 +17,7 @@
       placeHolderClass: 'angular-ui-tree-placeholder',
       dragClass: 'angular-ui-tree-drag',
       dragThreshold: 3,
-      levelThreshold: 30
+      levelThreshold: 10
     });
 
 })();
@@ -48,7 +48,6 @@
           },
 
           setNodeAttribute: function(scope, attrName, val) {
-          	if (!scope.$modelValue) return null;
             var data = this.nodesData[scope.$modelValue.$$hashKey];
             if (!data) {
               data = {};
@@ -58,7 +57,6 @@
           },
 
           getNodeAttribute: function(scope, attrName) {
-          	if (!scope.$modelValue) return null;
             var data = this.nodesData[scope.$modelValue.$$hashKey];
             if (data) {
               return data[attrName];
@@ -373,12 +371,10 @@
         $scope.maxDepth = 0;
 
         $scope.initSubNode = function(subNode) {
-          if(!subNode.$modelValue) return null;
           $scope.$nodesMap[subNode.$modelValue.$$hashKey] = subNode;
         };
 
         $scope.destroySubNode = function(subNode) {
-          if(!subNode.$modelValue) return null;
           $scope.$nodesMap[subNode.$modelValue.$$hashKey] = null;
         };
 
@@ -1109,15 +1105,31 @@
                                                          : eventObj.pageY < (targetOffset.top + $uiTreeHelper.height(targetElm) / 2);
 
                     if (targetNode.$parentNodesScope.accept(scope, targetNode.index())) {
+                      pos.distAxX = 0;
                       if (targetBefore) {
                         targetElm[0].parentNode.insertBefore(placeElm[0], targetElm[0]);
                         dragInfo.moveTo(targetNode.$parentNodesScope, targetNode.siblings(), targetNode.index());
-                      } else {
+                        //console.log('placed # 1');
+                        next = dragInfo.next();  
+                        if (next && (typeof next.$modelValue.Options !== 'undefined' && next.$modelValue.Options.length == 0) && next.accept(scope, next.childNodesCount())) {
+                          //console.log('magic happens');
+                          next.$childNodesScope.$element.append(placeElm);
+                          dragInfo.moveTo(next.$childNodesScope, next.childNodes(), next.childNodesCount() + 1);
+                        }
+                      } else {    
                         targetElm.after(placeElm);
                         dragInfo.moveTo(targetNode.$parentNodesScope, targetNode.siblings(), targetNode.index() + 1);
+                        //console.log('placed # 2');                        
+                        prev = dragInfo.prev();  
+                        if (prev && (typeof prev.$modelValue.Options !== 'undefined' && prev.$modelValue.Options.length == 0) && prev.accept(scope, prev.childNodesCount())) {
+                          //console.log('magic happens');
+                          prev.$childNodesScope.$element.append(placeElm);
+                          dragInfo.moveTo(prev.$childNodesScope, prev.childNodes(), prev.childNodesCount() + 1);
+                        }
                       }
                     }
                     else if (!targetBefore && targetNode.accept(scope, targetNode.childNodesCount())) { // we have to check if it can add the dragging node as a child
+                      //console.log('placed # 3');
                       targetNode.$childNodesScope.$element.append(placeElm);
                       dragInfo.moveTo(targetNode.$childNodesScope, targetNode.childNodes(), targetNode.childNodesCount());
                     }
