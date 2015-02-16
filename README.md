@@ -36,7 +36,7 @@ Watch the Tree component in action on the [demo page](http://jimliu.github.io/an
 ## Usage
 
 ### Download
-- Using [bower](http://bower.io/) to install it. `bower install angular-ui-tree`
+- Using [bower](http://bower.io/) to install it. `bower install angular-ui-tree-vertical`
 - [Download](https://github.com/JimLiu/angular-ui-tree/archive/master.zip) from github.
 
 ### Load CSS
